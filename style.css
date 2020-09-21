@@ -12,3 +12,16 @@ h1 {
     margin-top: 50px;
     text-transform: uppercase;
 }
+
+.img {
+    position: absolute;
+    top:0;
+    
+}
+img {
+    width: 100px;
+    opacity: 0.4;
+}
+p {
+    margin-top: 0;
+}

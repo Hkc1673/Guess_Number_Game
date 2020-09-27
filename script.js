@@ -1,28 +1,50 @@
-let  btn  = document.getElementById("btn");
-let output = document.getElementById("outputtext");
 
-let number = [Math.floor(Math.random() * 101)];     
-let counter = 0
-btn.addEventListener("click", function(){
-    let input = document.getElementById("userinput").value;
-    counter += 1;
-    if (input == number){
-        output.innerHTML = `You guessed right, your number was: ${number}`
-        document.getElementById("counter").innerHTML = "This is your test number:" + counter;
-        document.getElementById("userinput").value='';
-        counter = 0
-    } else if (input < number){
-        output.innerHTML = "You guessed too low!"
-        document.getElementById("counter").innerHTML = "This is your test number:" + counter;
-    };
-    if (input > number){
-        output.innerHTML = "You guessed too high!"
-        document.getElementById("counter").innerHTML = "This is your test number:" + counter;
-    }
-    if (counter == 10){
-        output.innerHTML = "Game Over! Try again..."
-        document.getElementById("userinput").value='';
-        counter = 0
-    }
+let guess_count = 0;
+const random_number = Math.floor(Math.random() * 100 + 1);
 
+document.querySelector("#check_it").addEventListener("click", checkNumber);
+document.querySelector("#nr_game").addEventListener("keyup", function(event){
+    if (event.keyCode === 13) 
+        checkNumber()
 });
+
+function checkNumber() {
+    let userInputElement = document.querySelector("#nr_game");
+    let answerLabelElement = document.querySelector("#answer");
+    let guessLabelElement = document.querySelector("#count_it");
+
+    if (userInputElement.value == random_number) {
+       
+        alert("You are the winner! Guess time:" + ++guess_count);
+
+        const choice = confirm("Game again?");
+
+        if(choice){
+            guess_count = 0;
+            let random_number = Math.floor(Math.random() * 100 + 1);
+            answerLabelElement.innerText = "";
+        } else {
+            alert("Thanks for playing");
+            answerLabelElement.innerText = "Best guess time:" + guess_count;
+        }
+
+    } 
+    else if (userInputElement.value == "") {
+        answerLabelElement.innerText = "Enter a number!";
+    }
+    else if (userInputElement.value > random_number) {
+        guess_count++;
+        guessLabelElement.innerText = `Guess count is: ${guess_count}`;
+        answerLabelElement.innerText = "Try a smaller number!";
+    } 
+    else if (userInputElement.value < random_number) {
+        guess_count++;
+        guessLabelElement.innerText = `Guess count is: ${guess_count}`;
+        answerLabelElement.innerText = "Try a higher number!";
+    } 
+    else if (isNaN(userInputElement.value)) {
+        answerLabelElement.innerText = "It's not a number!";
+    }
+    userInputElement.focus();
+    userInputElement.value = "";
+}
